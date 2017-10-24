@@ -9799,7 +9799,7 @@
       },
       "haptoglobin": {
         "source": {
-          "pdb": "4X0LC",
+          "pdb": "4X0L",
           "transform": {
             "center": true
           }
