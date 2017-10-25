@@ -1,0 +1,115 @@
+<html>
+
+<head>
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdn.rawgit.com/arose/ngl/v0.10.4/dist/ngl.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/stage.js/0.8.2/stage.web.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r79/three.min.js"></script>
+
+</head>
+
+<body>
+  <div id="viewport" style="width:100%; height:100%;"></div>
+
+
+
+
+
+</body>
+
+</html>
+
+
+
+<script>
+  // Setup to load data from rawgit
+  NGL.DatasourceRegistry.add(
+    "data", new NGL.StaticDatasource("//cdn.rawgit.com/arose/ngl/v0.10.4/data/")
+  );
+
+
+  // Create NGL Stage object
+  var stage = new NGL.Stage("viewport");
+
+  // Handle window resizing
+  window.addEventListener("resize", function(event) {
+    stage.handleResize();
+  }, false);
+
+
+  $.ajax({
+    url: "https://cdn.rawgit.com/RuoqingCheng/Protein-visualization-project/bc912d27/bp1425_grid50.json",
+    type: "get",
+    success: function(result) {
+      var temp = analyzeData(result);
+      var position = temp[0];
+      var quaternion = temp[1];
+      var copynum = temp[2]; // e.g. [ ["hemopexin", 560, "1qjs"], ... ]
+      // Code for example: component/matrix
+      //Loop through 20 proteins
+      for (var i = 0; i < copynum.length; i++) {
+        //var quat = new THREE.Quaternion();
+        //var vector = new THREE.Vector3( 1, 0, 0 );
+        var arr = [];
+        var name = copynum[i][2];
+        var fileName = "rcsb://" + name + ".pdb";
+        var file = stage.loadFile(fileName);
+        // var num = parseInt(copynum[0][1]);
+        // var num = 5;
+        for (var j = 0; j < copynum[i][1]; j++) {
+          arr.push(file);
+
+        }
+
+        Promise.all(arr).then(function(o) {
+          for (var i = 0; i < num; i++) {
+            o[i].setPosition(position[i][1]);
+            // console.log(position[i][1])
+            //quat = quaternion[i][1];
+            //vector.applyQuaternion( quaternion );
+            o[i].setRotation([2, 0, 0]);
+            //o[i].setScale(0.5)
+            o[i].addRepresentation("cartoon");
+            })
+          }
+          stage.autoView()
+        })
+        //stage.autoView();
+      }
+
+    }
+  });
+
+  function analyzeData(result) {
+    var position = [];
+    var quaternion = [];
+    var copynum = [];
+
+    var data = result.cytoplasme.ingredients;
+    for (var k in data) {
+      copynum.push([k, data[k].results.length, data[k].source.pdb]);
+      for (var p in data[k].results) {
+        for (var j in data[k].results[p]) {
+          if (data[k].results[p][j].length === 3) {
+            //console.log("pushing: "+data[k].results[p][j]);
+            position.push([k, data[k].results[p][j], data[k].source.pdb]);
+          } else {
+            quaternion.push([k, data[k].results[p][j], data[k].source.pdb]);
+          }
+
+        }
+      }
+    }
+    return [position, quaternion, copynum];
+  };
+</script>
