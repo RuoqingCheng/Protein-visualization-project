@@ -38,7 +38,7 @@ class Vec3 {
   }
 }
 
-var GLM = {
+var PDB = {
   Mat4: Mat4,
   Vec4: Vec4,
   Vec3: Vec3,
