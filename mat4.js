@@ -8,7 +8,10 @@ class Mat4 {
     );
   }
   multVec4(vec4) {
-    return new Vec4();
+    return new Vec4(this.arr[0] * vec4.x + this.arr[1] * vec4.y + this.arr[2] * vec4.z + this.arr[3] * vec4.w,
+                    this.arr[4] * vec4.x + this.arr[5] * vec4.y + this.arr[6] * vec4.z + this.arr[7] * vec4.w,
+                    this.arr[8] * vec4.x + this.arr[9] * vec4.y + this.arr[10] * vec4.z + this.arr[11] * vec4.w,
+                    this.arr[12] * vec4.x + this.arr[13] * vec4.y + this.arr[14] * vec4.z + this.arr[15] * vec4.w);
   }
 }
 
