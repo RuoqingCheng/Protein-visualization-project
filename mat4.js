@@ -63,7 +63,7 @@ var PDB = {
         g = z * x * (1 - cosine) - y * sine,
         h = z * y * (1 - cosine) + x * sine,
         i = cosine + z * z * (1 - cosine);
-    return mat4(a, b, c, 0,
+    return new Mat4(a, b, c, 0,
                 e, f, g, 0,
                 h, i, j, 0,
                 0, 0, 0, 1);
