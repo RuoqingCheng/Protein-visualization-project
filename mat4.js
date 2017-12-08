@@ -75,5 +75,3 @@ var GLM = {
     return this.rotationMat(angle, axis);
   }
 }
-
-module.exports = GLM;
