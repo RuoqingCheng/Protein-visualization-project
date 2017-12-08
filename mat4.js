@@ -43,9 +43,9 @@ var PDB = {
   Vec4: Vec4,
   Vec3: Vec3,
   translateMat: function (x, y, z) {
-    return new Mat4(1, 0, 0, x,
-                    0, 1, 0, y,
-                    0, 0, 1, z,
+    return new Mat4(a, b, c, 0,
+                    d, e, f, 0,
+                    g, h, i, 0,
                     0, 0, 0, 1);
   },
   rotationMat: function (angle, axis) {
